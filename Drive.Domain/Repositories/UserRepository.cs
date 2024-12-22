@@ -12,6 +12,9 @@ namespace Drive.Domain.Repositories
         public UserRepository(DriveDbContext dbContext) : base(dbContext) { }
         public (ResponseResultType Result, string Message, int? UserId) Login(string email, string password)
         {
+            if(!ValidateString(email) || !ValidateString(password))
+                return (ResponseResultType.ValidationError, "Email or password is empty", null);
+
             var user = DbContext.Users.FirstOrDefault(u => u.Email == email);
             if (user == null)
                 return (ResponseResultType.NotFound, "Invalid email or password", null);
@@ -24,6 +27,9 @@ namespace Drive.Domain.Repositories
 
         public (ResponseResultType Result, string Message) Register(string email, string password, string confirmPassword)
         {
+            if (!ValidateString(email) || !ValidateString(password))
+                return (ResponseResultType.ValidationError, "Email or password is empty");
+
             if (!ValidateEmail(email))
                 return (ResponseResultType.ValidationError, "Invalid email format");
 
@@ -50,6 +56,9 @@ namespace Drive.Domain.Repositories
 
         public (ResponseResultType Result, string Message) ChangeEmail(int? userId, string newEmail)
         {
+            if (!ValidateString(newEmail))
+                return (ResponseResultType.ValidationError, "Email or password is empty");
+
             if (!ValidateEmail(newEmail))
                 return (ResponseResultType.ValidationError, "Invalid email format");
 
@@ -70,6 +79,9 @@ namespace Drive.Domain.Repositories
 
         public (ResponseResultType Result, string Message) ChangePassword(int? userId, string currentPassword, string newPassword)
         {
+            if (!ValidateString(newPassword))
+                return (ResponseResultType.ValidationError, "New password is empty");
+
             var user = DbContext.Users.Find(userId);
             if (user == null)
                 return (ResponseResultType.NotFound, "User not found");
@@ -85,9 +97,13 @@ namespace Drive.Domain.Repositories
                 : (ResponseResultType.NoChanges, "Failed to change password");
         }
 
+        private bool ValidateString(string input)
+        {
+            return !string.IsNullOrWhiteSpace(input);
+        }
+
         private bool ValidateEmail(string email)
         {
-            if (string.IsNullOrWhiteSpace(email)) return false;
             var pattern = @"^[^@\s]+@[^@\s]{2,}\.[^@\s]{3,}$";
             return Regex.IsMatch(email, pattern);
         }

@@ -31,7 +31,7 @@ namespace Internship_7_Drive.Actions.Authentication
             Console.Write("Password: ");
             var password = Console.ReadLine();
 
-            var (result, message, userId) = _userRepository.Login(email!, password);
+            var (result, message, userId) = _userRepository.Login(email, password);
 
             if (result == ResponseResultType.Success)
             {

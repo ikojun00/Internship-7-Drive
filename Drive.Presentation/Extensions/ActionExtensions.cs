@@ -14,7 +14,10 @@ namespace Internship_7_Drive.Extensions
             var isExitSelected = false;
             do
             {
+                // it deletes titles - need to find better placement
+                Console.Clear();
                 PrintActions(actions);
+                Console.Write("\nYour choice: ");
 
                 var isValidInput = int.TryParse(Console.ReadLine(), out var actionIndex);
                 if (!isValidInput)
