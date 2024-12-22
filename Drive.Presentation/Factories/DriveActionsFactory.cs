@@ -1,19 +1,19 @@
 ﻿using Internship_7_Drive.Abstractions;
 using Internship_7_Drive.Actions;
-using Internship_7_Drive.Actions.DriveMenu;
 
 namespace Internship_7_Drive.Factories
 {
-    public class DriveMenuFactory
+    public class DriveActionsFactory
     {
-        public static DriveMenuAction Create()
+        public static DriveAction Create()
         {
             var actions = new List<IAction>
             {
+                ProfileActionsFactory.Create(),
                 new ExitMenuAction(),
             };
 
-            var menuAction = new DriveMenuAction(actions);
+            var menuAction = new DriveAction(actions);
             return menuAction;
 
         }

@@ -1,10 +1,10 @@
 ﻿using Internship_7_Drive.Abstractions;
 
-namespace Internship_7_Drive.Actions.DriveMenu
+namespace Internship_7_Drive.Actions
 {
-    public class DriveMenuAction : BaseMenuAction
+    public class DriveAction : BaseMenuAction
     {
-        public DriveMenuAction(IList<IAction> actions) : base(actions)
+        public DriveAction(IList<IAction> actions) : base(actions)
         {
             Name = "Drive menu";
         }

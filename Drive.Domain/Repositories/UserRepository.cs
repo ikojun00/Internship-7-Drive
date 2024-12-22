@@ -7,9 +7,9 @@ using System.Text.RegularExpressions;
 
 namespace Drive.Domain.Repositories
 {
-    public class AuthenticationRepository : BaseRepository
+    public class UserRepository : BaseRepository
     {
-        public AuthenticationRepository(DriveDbContext dbContext) : base(dbContext) { }
+        public UserRepository(DriveDbContext dbContext) : base(dbContext) { }
         public (ResponseResultType Result, string Message, int? UserId) Login(string email, string password)
         {
             var user = DbContext.Users.FirstOrDefault(u => u.Email == email);
@@ -48,10 +48,46 @@ namespace Drive.Domain.Repositories
                 : (ResponseResultType.NoChanges, "Failed to register user");
         }
 
+        public (ResponseResultType Result, string Message) ChangeEmail(int? userId, string newEmail)
+        {
+            if (!ValidateEmail(newEmail))
+                return (ResponseResultType.ValidationError, "Invalid email format");
+
+            if (DbContext.Users.Any(u => u.Email == newEmail && u.Id != userId))
+                return (ResponseResultType.AlreadyExists, "Email already in use");
+
+            var user = DbContext.Users.Find(userId);
+            if (user == null)
+                return (ResponseResultType.NotFound, "User not found");
+
+            user.Email = newEmail;
+            var result = SaveChanges();
+
+            return result == ResponseResultType.Success
+                ? (ResponseResultType.Success, "Email changed successfully")
+                : (ResponseResultType.NoChanges, "Failed to change email");
+        }
+
+        public (ResponseResultType Result, string Message) ChangePassword(int? userId, string currentPassword, string newPassword)
+        {
+            var user = DbContext.Users.Find(userId);
+            if (user == null)
+                return (ResponseResultType.NotFound, "User not found");
+
+            if (!VerifyPassword(currentPassword, user.PasswordHash))
+                return (ResponseResultType.ValidationError, "Current password is incorrect");
+
+            user.PasswordHash = HashPassword(newPassword);
+            var result = SaveChanges();
+
+            return result == ResponseResultType.Success
+                ? (ResponseResultType.Success, "Password changed successfully")
+                : (ResponseResultType.NoChanges, "Failed to change password");
+        }
+
         private bool ValidateEmail(string email)
         {
             if (string.IsNullOrWhiteSpace(email)) return false;
-
             var pattern = @"^[^@\s]+@[^@\s]{2,}\.[^@\s]{3,}$";
             return Regex.IsMatch(email, pattern);
         }

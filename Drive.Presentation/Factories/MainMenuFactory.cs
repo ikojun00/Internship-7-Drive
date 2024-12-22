@@ -13,8 +13,8 @@ namespace Internship_7_Drive.Factories
         {
             var actions = new List<IAction>
             {
-                new AuthenticationLoginAction(RepositoryFactory.Create<AuthenticationRepository>()),
-                new AuthenticationRegisterAction(RepositoryFactory.Create<AuthenticationRepository>()),
+                new AuthenticationLoginAction(RepositoryFactory.Create<UserRepository>()),
+                new AuthenticationRegisterAction(RepositoryFactory.Create<UserRepository>()),
                 new ExitMenuAction(),
             };
 

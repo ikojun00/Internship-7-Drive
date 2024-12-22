@@ -7,24 +7,21 @@ namespace Internship_7_Drive.Actions.Authentication
 {
     public class AuthenticationLoginAction : IAction
     {
-        private readonly AuthenticationRepository _authenticationRepository;
-        // morat ce se ovo staviti u context zbog log-outa
-        private static int? _currentUserId = null;
-        private static DateTime? _lastFailedLogin = null;
+        private readonly UserRepository _userRepository;
 
         public int MenuIndex { get; set; }
         public string Name { get; set; } = "Login";
 
-        public AuthenticationLoginAction(AuthenticationRepository authenticationRepository)
+        public AuthenticationLoginAction(UserRepository userRepository)
         {
-            _authenticationRepository = authenticationRepository;
+            _userRepository = userRepository;
         }
 
         public void Open()
         {
-            if (_lastFailedLogin.HasValue && DateTime.Now - _lastFailedLogin.Value < TimeSpan.FromSeconds(30))
+            if (UserContext.LastFailedLogin.HasValue && DateTime.Now - UserContext.LastFailedLogin.Value < TimeSpan.FromSeconds(30))
             {
-                Console.WriteLine($"Please wait {30 - (DateTime.Now - _lastFailedLogin.Value).TotalSeconds:F0} seconds before trying again");
+                Console.WriteLine($"Please wait {30 - (DateTime.Now - UserContext.LastFailedLogin.Value).TotalSeconds:F0} seconds before trying again");
                 Thread.Sleep(2000);
                 return;
             }
@@ -34,20 +31,20 @@ namespace Internship_7_Drive.Actions.Authentication
             Console.Write("Password: ");
             var password = Console.ReadLine();
 
-            var (result, message, userId) = _authenticationRepository.Login(email!, password);
+            var (result, message, userId) = _userRepository.Login(email!, password);
 
             if (result == ResponseResultType.Success)
             {
-                _currentUserId = userId;
-                _lastFailedLogin = null;
+                UserContext.CurrentUserId = userId;
+                UserContext.LastFailedLogin = null;
                 Console.WriteLine(message);
-                var driveMenu = DriveMenuFactory.Create();
+                var driveMenu = DriveActionsFactory.Create();
                 driveMenu.Open();
             }
             else
             {
                 Console.WriteLine(message);
-                _lastFailedLogin = DateTime.Now;
+                UserContext.LastFailedLogin = DateTime.Now;
             }
             Thread.Sleep(2000);
         }

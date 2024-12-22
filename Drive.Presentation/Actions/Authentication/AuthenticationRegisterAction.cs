@@ -1,24 +1,19 @@
-﻿using Drive.Domain.Enums;
-using Drive.Domain.Repositories;
+﻿using Drive.Domain.Repositories;
 using Internship_7_Drive.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Internship_7_Drive.Actions.Authentication
 {
     public class AuthenticationRegisterAction : IAction
     {
-        private readonly AuthenticationRepository _authenticationRepository;
+        private readonly UserRepository _userRepository;
 
         public int MenuIndex { get; set; }
         public string Name { get; set; } = "Register";
 
-        public AuthenticationRegisterAction(AuthenticationRepository authenticationRepository)
+        public AuthenticationRegisterAction(UserRepository userRepository)
         {
-            _authenticationRepository = authenticationRepository;
+            _userRepository = userRepository;
         }
 
         public void Open()
@@ -44,7 +39,7 @@ namespace Internship_7_Drive.Actions.Authentication
                 return;
             }
 
-            var (result, message) = _authenticationRepository.Register(email!, password, confirmPassword);
+            var (result, message) = _userRepository.Register(email!, password, confirmPassword);
             Console.WriteLine(message);
             Thread.Sleep(2000);
         }
