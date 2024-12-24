@@ -70,6 +70,7 @@ namespace Drive.Domain.Repositories
                 return (ResponseResultType.NotFound, "User not found");
 
             user.Email = newEmail;
+            user.UpdatedAt = DateTime.UtcNow;
             var result = SaveChanges();
 
             return result == ResponseResultType.Success
@@ -90,6 +91,7 @@ namespace Drive.Domain.Repositories
                 return (ResponseResultType.ValidationError, "Current password is incorrect");
 
             user.PasswordHash = HashPassword(newPassword);
+            user.UpdatedAt = DateTime.UtcNow;
             var result = SaveChanges();
 
             return result == ResponseResultType.Success

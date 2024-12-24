@@ -9,6 +9,7 @@ namespace Internship_7_Drive.Factories
         {
             var actions = new List<IAction>
             {
+                UserDriveActionsFactory.Create(),
                 ProfileActionsFactory.Create(),
                 new ExitMenuAction(),
             };

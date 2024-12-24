@@ -3,6 +3,8 @@
     public class UserContext
     {
         public static int? CurrentUserId { get; set; }
+        public static string? CurrentPath { get; set; }
         public static DateTime? LastFailedLogin { get; set; }
+        public static string? CurrentName { get; set;}
     }
 }
