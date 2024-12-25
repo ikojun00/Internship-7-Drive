@@ -1,41 +1,42 @@
-﻿using Drive.Domain.Enums;
-using Drive.Domain.Repositories;
+﻿using Drive.Domain.Repositories;
 using Internship_7_Drive.Abstractions;
 
 namespace Internship_7_Drive.Actions.UserDrive
 {
-    public class UserDriveChangeFolderAction : ICommandAction
+    public class UserDriveAddFileAction : ICommandAction
     {
         private readonly DriveRepository _driveRepository;
 
         public int MenuIndex { get; set; }
-        public string Name { get; set; } = "change folder";
+        public string Name { get; set; } = "add file";
 
-        public UserDriveChangeFolderAction(DriveRepository driveRepository)
+        public UserDriveAddFileAction(DriveRepository driveRepository)
         {
             _driveRepository = driveRepository;
         }
 
         public void Open()
         {
+            Console.Write($"Jeste li sigurni da želite stvoriti datoteku '{UserContext.CurrentName}'? (da/ne): ");
+            var confirmation = Console.ReadLine()?.ToLower();
+
+            if (confirmation != "da")
+            {
+                Console.WriteLine("Stvaranje datoteke je otkazano.");
+                return;
+            }
+
             var (folderIdResult, _, currentFolderId) = _driveRepository.GetFolderId(
                 UserContext.CurrentPath?.Split('\\', StringSplitOptions.RemoveEmptyEntries).LastOrDefault()
             );
 
-            var (result, message, targetFolder) = _driveRepository.GetTargetFolder(
+            var (result, message) = _driveRepository.CreateFile(
                 UserContext.CurrentName,
                 currentFolderId == 0 ? null : currentFolderId,
                 UserContext.CurrentUserId
             );
 
-            if (result != ResponseResultType.Success)
-            {
-                Console.WriteLine(message);
-                return;
-            }
-
-            UserContext.CurrentPath += $"\\{UserContext.CurrentName}";
-            Console.WriteLine($"Uspješno ste ušli u mapu '{UserContext.CurrentName}'");
+            Console.WriteLine(message);
             UserContext.CurrentName = null;
         }
     }

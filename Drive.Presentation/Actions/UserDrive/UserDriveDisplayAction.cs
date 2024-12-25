@@ -17,15 +17,17 @@ namespace Internship_7_Drive.Actions.UserDrive
 
         public void Open()
         {
-            var pathParts = UserContext.CurrentPath != null ? UserContext.CurrentPath.Split('\\', StringSplitOptions.RemoveEmptyEntries) : [];
+            var pathParts = UserContext.CurrentPath?.Split('\\', StringSplitOptions.RemoveEmptyEntries) ?? [];
             var currentFolderName = pathParts.Length > 0 ? pathParts[^1] : null;
-            var folderId = currentFolderName != null ? _driveRepository.GetFolderId(currentFolderName) : null;
 
-            var folders = _driveRepository.GetUserFolders(UserContext.CurrentUserId, folderId);
-            var files = _driveRepository.GetUserFilesInFolder(UserContext.CurrentUserId, folderId);
+            var (folderIdResult, _, folderId) = _driveRepository.GetFolderId(currentFolderName);
+
+            var (folderResult, _, folders) = _driveRepository.GetUserFolders(UserContext.CurrentUserId, folderId);
+            var (fileResult, _, files) = _driveRepository.GetUserFilesInFolder(UserContext.CurrentUserId, folderId);
 
             if (folders.Any())
             {
+                Console.WriteLine("\nMape:");
                 foreach (var folder in folders)
                 {
                     Console.WriteLine($"{folder.Name}");
@@ -34,15 +36,16 @@ namespace Internship_7_Drive.Actions.UserDrive
 
             if (files.Any())
             {
+                Console.WriteLine("\nDatoteke:");
                 foreach (var file in files)
                 {
-                    Console.WriteLine($"{file.Name} (Last modified: {file.UpdatedAt:g})");
+                    Console.WriteLine($"{file.Name} (Zadnja izmjena: {file.UpdatedAt:g})");
                 }
             }
 
             if (!folders.Any() && !files.Any())
             {
-                Console.WriteLine("This folder is empty.");
+                Console.WriteLine("Mapa je prazna.");
             }
         }
     }
