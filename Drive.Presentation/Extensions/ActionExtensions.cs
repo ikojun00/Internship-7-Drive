@@ -1,6 +1,6 @@
 ﻿using Internship_7_Drive.Abstractions;
 using Internship_7_Drive.Actions;
-using System.Xml.Linq;
+using Internship_7_Drive.Actions.UserDrive;
 
 namespace Internship_7_Drive.Extensions
 {
@@ -79,7 +79,7 @@ namespace Internship_7_Drive.Extensions
                 UserContext.CurrentName = input.Substring(action.Name.Length).Trim();
                 action.Open();
 
-                isExitSelected = action is ExitMenuAction;
+                isExitSelected = action is UserDriveExitAction;
             } while (!isExitSelected);
         }
 
