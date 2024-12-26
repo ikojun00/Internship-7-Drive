@@ -6,7 +6,7 @@ namespace Internship_7_Drive.Actions
     {
         public DriveAction(IList<IAction> actions) : base(actions)
         {
-            Name = "Drive menu";
+            Name = "Drive";
         }
 
         public override void Open()

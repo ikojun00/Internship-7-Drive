@@ -27,7 +27,7 @@ namespace Internship_7_Drive.Actions.UserDrive
 
             if (folders.Any())
             {
-                Console.WriteLine("\nMape:");
+                Console.WriteLine("\nFolders:");
                 foreach (var folder in folders)
                 {
                     Console.WriteLine($"{folder.Name}");
@@ -36,16 +36,16 @@ namespace Internship_7_Drive.Actions.UserDrive
 
             if (files.Any())
             {
-                Console.WriteLine("\nDatoteke:");
+                Console.WriteLine("\nFiles:");
                 foreach (var file in files)
                 {
-                    Console.WriteLine($"{file.Name} (Zadnja izmjena: {file.UpdatedAt:g})");
+                    Console.WriteLine($"{file.Name} (Last modified: {file.UpdatedAt ?? file.CreatedAt})");
                 }
             }
 
             if (!folders.Any() && !files.Any())
             {
-                Console.WriteLine("Mapa je prazna.");
+                Console.WriteLine("Folder is empty.");
             }
         }
     }

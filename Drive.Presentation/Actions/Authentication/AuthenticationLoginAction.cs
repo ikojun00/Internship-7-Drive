@@ -39,6 +39,7 @@ namespace Internship_7_Drive.Actions.Authentication
                 UserContext.LastFailedLogin = null;
                 Console.WriteLine(message);
                 var driveMenu = DriveActionsFactory.Create();
+                Console.Clear();
                 driveMenu.Open();
             }
             else

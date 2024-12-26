@@ -7,12 +7,12 @@ namespace Internship_7_Drive.Actions.UserDrive
     {
         public UserDriveAction(IList<IAction> actions) : base(actions)
         {
-            Name = "User Drive menu";
+            Name = "My drive";
         }
 
         public override void Open()
         {
-            Console.WriteLine("User Drive management");
+            Console.WriteLine("Drive management");
             base.Open();
         }
     }

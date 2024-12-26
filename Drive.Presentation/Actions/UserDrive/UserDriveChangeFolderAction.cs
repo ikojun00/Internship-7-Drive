@@ -35,7 +35,7 @@ namespace Internship_7_Drive.Actions.UserDrive
             }
 
             UserContext.CurrentPath += $"\\{UserContext.CurrentName}";
-            Console.WriteLine($"Uspješno ste ušli u mapu '{UserContext.CurrentName}'");
+            Console.WriteLine($"Entered in folder '{UserContext.CurrentName}' successfully.");
             UserContext.CurrentName = null;
         }
     }
