@@ -12,12 +12,12 @@ namespace Internship_7_Drive.Factories
             var actions = new List<IAction>
             {
                 new UserDriveDisplayAction(RepositoryFactory.Create<DriveRepository>()),
-                new UserDriveAddFileAction(RepositoryFactory.Create<DriveRepository>()),
-                new UserDriveAddFolderAction(RepositoryFactory.Create<DriveRepository>()),
+                new UserDriveAddAction(RepositoryFactory.Create<DriveRepository>()),
+                new UserDriveUpdateFileAction(RepositoryFactory.Create<DriveRepository>()),
                 new UserDriveChangeFolderAction(RepositoryFactory.Create<DriveRepository>()),
                 new UserDriveBackAction(),
-                new UserDriveDeleteFileAction(RepositoryFactory.Create<DriveRepository>()),
-                new UserDriveDeleteFolderAction(RepositoryFactory.Create<DriveRepository>()),
+                new UserDriveDeleteAction(RepositoryFactory.Create<DriveRepository>()),
+                new UserDriveRenameAction(RepositoryFactory.Create<DriveRepository>()),
                 new UserDriveExitAction()
             };
 
