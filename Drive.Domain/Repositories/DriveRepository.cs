@@ -190,6 +190,108 @@ namespace Drive.Domain.Repositories
             
         }
 
+        public (ResponseResultType Result, string Message) RenameFolder(string currentName, string newName, int? parentFolderId, int? userId)
+        {
+            if (!ValidateString(currentName) || !ValidateString(newName))
+                return (ResponseResultType.ValidationError, "Folder names cannot be empty");
+
+            if (userId == null)
+                return (ResponseResultType.ValidationError, "User ID cannot be null");
+
+            var folder = DbContext.Folders
+                .FirstOrDefault(f => f.Name == currentName &&
+                                    f.ParentFolderId == parentFolderId &&
+                                    f.OwnerId == userId);
+
+            if (folder == null)
+                return (ResponseResultType.NotFound, $"Folder '{currentName}' not found");
+
+            if (DbContext.Folders.Any(f => f.Name == newName &&
+                                          f.ParentFolderId == parentFolderId &&
+                                          f.OwnerId == userId))
+            {
+                return (ResponseResultType.AlreadyExists, $"Folder '{newName}' already exists in this location");
+            }
+
+            folder.Name = newName;
+            folder.UpdatedAt = DateTime.UtcNow;
+            var result = SaveChanges();
+
+            return result == ResponseResultType.Success
+                ? (ResponseResultType.Success, "Folder renamed successfully")
+                : (ResponseResultType.NoChanges, "Failed to rename folder");
+        }
+
+        public (ResponseResultType Result, string Message) RenameFile(string currentName, string newName, int? folderId, int? userId)
+        {
+            if (!ValidateString(currentName) || !ValidateString(newName))
+                return (ResponseResultType.ValidationError, "File names cannot be empty");
+
+            if (userId == null)
+                return (ResponseResultType.ValidationError, "User ID cannot be null");
+
+            if (!newName.Contains('.'))
+                return (ResponseResultType.ValidationError, "File must have an extension (e.g. .txt, .doc)");
+
+            var file = DbContext.Files
+                .FirstOrDefault(f => f.Name == currentName &&
+                                    f.FolderId == folderId &&
+                                    f.OwnerId == userId);
+
+            if (file == null)
+                return (ResponseResultType.NotFound, $"File '{currentName}' not found");
+
+            if (DbContext.Files.Any(f => f.Name == newName &&
+                                        f.FolderId == folderId &&
+                                        f.OwnerId == userId))
+            {
+                return (ResponseResultType.AlreadyExists, $"File '{newName}' already exists in this location");
+            }
+
+            file.Name = newName;
+            file.UpdatedAt = DateTime.UtcNow;
+            var result = SaveChanges();
+
+            return result == ResponseResultType.Success
+                ? (ResponseResultType.Success, "File renamed successfully")
+                : (ResponseResultType.NoChanges, "Failed to rename file");
+        }
+
+        public (ResponseResultType Result, string Message, File? File) GetFile(string? fileName, int? folderId, int? userId)
+        {
+            if (!ValidateString(fileName))
+                return (ResponseResultType.ValidationError, "File name cannot be empty", null);
+
+            if (userId == null)
+                return (ResponseResultType.ValidationError, "User ID cannot be null", null);
+
+            var file = DbContext.Files
+                .FirstOrDefault(f => f.Name == fileName &&
+                                    f.FolderId == folderId &&
+                                    f.OwnerId == userId);
+
+            return file == null
+                ? (ResponseResultType.NotFound, $"File '{fileName}' not found", null)
+                : (ResponseResultType.Success, "File found successfully", file);
+        }
+
+        public (ResponseResultType Result, string Message) UpdateFileContent(int fileId, string content)
+        {
+            var file = DbContext.Files.Find(fileId);
+
+            if (file == null)
+                return (ResponseResultType.NotFound, "File not found");
+
+            file.Content = content;
+            file.UpdatedAt = DateTime.UtcNow;
+
+            var result = SaveChanges();
+
+            return result == ResponseResultType.Success
+                ? (ResponseResultType.Success, "File updated successfully")
+                : (ResponseResultType.NoChanges, "Failed to update file");
+        }
+
         private bool ValidateString(string? input)
         {
             return !string.IsNullOrWhiteSpace(input);
