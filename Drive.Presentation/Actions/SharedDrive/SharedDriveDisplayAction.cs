@@ -17,12 +17,17 @@ namespace Internship_7_Drive.Actions.SharedDrive
 
         public void Open()
         {
-            var (folderResult, _, folders) = _driveRepository.GetSharedFolders(UserContext.CurrentUserId);
+            var pathParts = UserContext.CurrentPath?.Split('\\', StringSplitOptions.RemoveEmptyEntries) ?? [];
+            var currentFolderName = pathParts.Length > 0 ? pathParts[^1] : null;
+
+            var (folderIdResult, _, folderId) = _driveRepository.GetFolderId(currentFolderName);
+
+            var (folderResult, _, folders) = _driveRepository.GetSharedFolders(UserContext.CurrentUserId, folderId);
             var (fileResult, _, files) = _driveRepository.GetSharedFiles(UserContext.CurrentUserId);
 
             if (folders.Any())
             {
-                Console.WriteLine("\nFolders:");
+                Console.WriteLine("\nFolders and files from folders:");
                 foreach (var folder in folders)
                 {
                     Console.WriteLine($"{folder.Name}");

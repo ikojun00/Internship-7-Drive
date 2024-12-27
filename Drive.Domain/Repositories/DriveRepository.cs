@@ -18,7 +18,7 @@ namespace Drive.Domain.Repositories
             var folder = DbContext.Folders
                 .FirstOrDefault(f => f.Name == folderName &&
                                    f.ParentFolderId == currentFolderId &&
-                                   f.OwnerId == userId);
+                                   (f.OwnerId == userId || f.SharedWith.Any(u => u.Id == userId)));
 
             return folder == null
                 ? (ResponseResultType.NotFound, $"Folder '{folderName}' not found", null)
@@ -266,10 +266,13 @@ namespace Drive.Domain.Repositories
             if (userId == null)
                 return (ResponseResultType.ValidationError, "User ID cannot be null", null);
 
+            // folderId == null is implemented for getting shared file, it works
+            // because we can not add file without folderId in userDrive
             var file = DbContext.Files
+                .Include(f => f.SharedWith)
                 .FirstOrDefault(f => f.Name == fileName &&
-                                    f.FolderId == folderId &&
-                                    f.OwnerId == userId);
+                                    (folderId == null || f.FolderId == folderId) &&
+                                    (f.OwnerId == userId || f.SharedWith.Any(u => u.Id == userId)));
 
             return file == null
                 ? (ResponseResultType.NotFound, $"File '{fileName}' not found", null)
@@ -400,13 +403,13 @@ namespace Drive.Domain.Repositories
                 : (ResponseResultType.NoChanges, $"Failed to stop sharing {(isFolder ? "folder" : "file")}");
         }
 
-        public (ResponseResultType Result, string Message, List<Folder> Folders) GetSharedFolders(int? userId)
+        public (ResponseResultType Result, string Message, List<Folder> Folders) GetSharedFolders(int? userId, int? folderId)
         {
             if (userId == null)
                 return (ResponseResultType.ValidationError, "User ID cannot be null", new List<Folder>());
 
             var folders = DbContext.Folders
-                .Where(f => f.SharedWith.Any(u => u.Id == userId))
+                .Where(f => f.SharedWith.Any(u => u.Id == userId) && f.ParentFolderId == folderId)
                 .OrderBy(f => f.Name)
                 .ToList();
 

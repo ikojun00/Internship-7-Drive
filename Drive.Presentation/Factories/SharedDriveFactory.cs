@@ -13,6 +13,9 @@ namespace Internship_7_Drive.Factories
             var actions = new List<IAction>
             {
                 new SharedDriveDisplayAction(RepositoryFactory.Create<DriveRepository>()),
+                new UserDriveChangeFolderAction(RepositoryFactory.Create<DriveRepository>()),
+                new UserDriveUpdateFileAction(RepositoryFactory.Create<DriveRepository>()),
+                new UserDriveBackAction(),
                 new UserDriveExitAction()
             };
 
