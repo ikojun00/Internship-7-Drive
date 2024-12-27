@@ -1,6 +1,7 @@
 ﻿using Drive.Data.Entities;
 using Drive.Data.Entities.Models;
 using Drive.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 using File = Drive.Data.Entities.Models.File;
 
 namespace Drive.Domain.Repositories
@@ -290,6 +291,139 @@ namespace Drive.Domain.Repositories
             return result == ResponseResultType.Success
                 ? (ResponseResultType.Success, "File updated successfully")
                 : (ResponseResultType.NoChanges, "Failed to update file");
+        }
+
+        public (ResponseResultType Result, string Message) ShareItem(string itemName, string recipientEmail, bool isFolder, int? currentFolderId, int? ownerId)
+        {
+            if (!ValidateString(itemName) || !ValidateString(recipientEmail))
+                return (ResponseResultType.ValidationError, "Item name or recipient email cannot be empty");
+
+            if (ownerId == null)
+                return (ResponseResultType.ValidationError, "Owner ID cannot be null");
+
+            var recipient = DbContext.Users.FirstOrDefault(u => u.Email == recipientEmail);
+            if (recipient == null)
+                return (ResponseResultType.NotFound, "Recipient not found");
+
+            if (recipient.Id == ownerId)
+                return (ResponseResultType.ValidationError, "Cannot share with yourself");
+
+            if (isFolder)
+            {
+                var folder = DbContext.Folders
+                    .Include(f => f.SharedWith)
+                    .FirstOrDefault(f => f.Name == itemName &&
+                                       f.ParentFolderId == currentFolderId &&
+                                       f.OwnerId == ownerId);
+
+                if (folder == null)
+                    return (ResponseResultType.NotFound, $"Folder '{itemName}' not found");
+
+                if (folder.SharedWith.Any(u => u.Id == recipient.Id))
+                    return (ResponseResultType.AlreadyExists, $"Folder '{itemName}' is already shared with {recipientEmail}");
+
+                folder.SharedWith.Add(recipient);
+            }
+            else
+            {
+                var file = DbContext.Files
+                    .Include(f => f.SharedWith)
+                    .FirstOrDefault(f => f.Name == itemName &&
+                                       f.FolderId == currentFolderId &&
+                                       f.OwnerId == ownerId);
+
+                if (file == null)
+                    return (ResponseResultType.NotFound, $"File '{itemName}' not found");
+
+                if (file.SharedWith.Any(u => u.Id == recipient.Id))
+                    return (ResponseResultType.AlreadyExists, $"File '{itemName}' is already shared with {recipientEmail}");
+
+                file.SharedWith.Add(recipient);
+            }
+
+            var result = SaveChanges();
+
+            return result == ResponseResultType.Success
+                ? (ResponseResultType.Success, $"{(isFolder ? "Folder" : "File")} shared successfully with {recipientEmail}")
+                : (ResponseResultType.NoChanges, $"Failed to share {(isFolder ? "folder" : "file")}");
+        }
+
+        public (ResponseResultType Result, string Message) StopSharing(string itemName, string recipientEmail, bool isFolder, int? currentFolderId, int? ownerId)
+        {
+            if (!ValidateString(itemName) || !ValidateString(recipientEmail))
+                return (ResponseResultType.ValidationError, "Item name or recipient email cannot be empty");
+
+            if (ownerId == null)
+                return (ResponseResultType.ValidationError, "Owner ID cannot be null");
+
+            var recipient = DbContext.Users.FirstOrDefault(u => u.Email == recipientEmail);
+            if (recipient == null)
+                return (ResponseResultType.NotFound, "Recipient not found");
+
+            if (isFolder)
+            {
+                var folder = DbContext.Folders
+                    .Include(f => f.SharedWith)
+                    .FirstOrDefault(f => f.Name == itemName &&
+                                       f.ParentFolderId == currentFolderId &&
+                                       f.OwnerId == ownerId);
+
+                if (folder == null)
+                    return (ResponseResultType.NotFound, $"Folder '{itemName}' not found");
+
+                if (!folder.SharedWith.Any(u => u.Id == recipient.Id))
+                    return (ResponseResultType.NotFound, $"Folder '{itemName}' is not shared with {recipientEmail}");
+
+                folder.SharedWith.Remove(recipient);
+            }
+            else
+            {
+                var file = DbContext.Files
+                    .Include(f => f.SharedWith)
+                    .FirstOrDefault(f => f.Name == itemName &&
+                                       f.FolderId == currentFolderId &&
+                                       f.OwnerId == ownerId);
+
+                if (file == null)
+                    return (ResponseResultType.NotFound, $"File '{itemName}' not found");
+
+                if (!file.SharedWith.Any(u => u.Id == recipient.Id))
+                    return (ResponseResultType.NotFound, $"File '{itemName}' is not shared with {recipientEmail}");
+
+                file.SharedWith.Remove(recipient);
+            }
+
+            var result = SaveChanges();
+
+            return result == ResponseResultType.Success
+                ? (ResponseResultType.Success, $"Stopped sharing {(isFolder ? "folder" : "file")} with {recipientEmail}")
+                : (ResponseResultType.NoChanges, $"Failed to stop sharing {(isFolder ? "folder" : "file")}");
+        }
+
+        public (ResponseResultType Result, string Message, List<Folder> Folders) GetSharedFolders(int? userId)
+        {
+            if (userId == null)
+                return (ResponseResultType.ValidationError, "User ID cannot be null", new List<Folder>());
+
+            var folders = DbContext.Folders
+                .Where(f => f.SharedWith.Any(u => u.Id == userId))
+                .OrderBy(f => f.Name)
+                .ToList();
+
+            return (ResponseResultType.Success, "Shared folders retrieved successfully", folders);
+        }
+
+        public (ResponseResultType Result, string Message, List<File> Files) GetSharedFiles(int? userId)
+        {
+            if (userId == null)
+                return (ResponseResultType.ValidationError, "User ID cannot be null", new List<File>());
+
+            var files = DbContext.Files
+                .Where(f => f.SharedWith.Any(u => u.Id == userId))
+                .OrderByDescending(f => f.UpdatedAt)
+                .ToList();
+
+            return (ResponseResultType.Success, "Shared files retrieved successfully", files);
         }
 
         private bool ValidateString(string? input)

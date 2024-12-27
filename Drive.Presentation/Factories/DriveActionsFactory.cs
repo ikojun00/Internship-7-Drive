@@ -10,6 +10,7 @@ namespace Internship_7_Drive.Factories
             var actions = new List<IAction>
             {
                 UserDriveActionsFactory.Create(),
+                SharedDriveFactory.Create(),
                 ProfileActionsFactory.Create(),
                 new ExitMenuAction(),
             };

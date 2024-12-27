@@ -18,6 +18,8 @@ namespace Internship_7_Drive.Factories
                 new UserDriveBackAction(),
                 new UserDriveDeleteAction(RepositoryFactory.Create<DriveRepository>()),
                 new UserDriveRenameAction(RepositoryFactory.Create<DriveRepository>()),
+                new UserDriveShareAction(RepositoryFactory.Create<DriveRepository>()),
+                new UserDriveUnshareAction(RepositoryFactory.Create<DriveRepository>()),
                 new UserDriveExitAction()
             };
 

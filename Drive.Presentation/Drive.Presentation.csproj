@@ -12,8 +12,4 @@
     <ProjectReference Include="..\Drive.Domain\Drive.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Actions\SharedDrive\" />
-  </ItemGroup>
-
 </Project>
