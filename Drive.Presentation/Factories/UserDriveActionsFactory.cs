@@ -1,6 +1,7 @@
 ﻿using Drive.Domain.Factories;
 using Drive.Domain.Repositories;
 using Internship_7_Drive.Abstractions;
+using Internship_7_Drive.Actions.Comment;
 using Internship_7_Drive.Actions.UserDrive;
 
 namespace Internship_7_Drive.Factories
@@ -20,6 +21,10 @@ namespace Internship_7_Drive.Factories
                 new UserDriveRenameAction(RepositoryFactory.Create<DriveRepository>()),
                 new UserDriveShareAction(RepositoryFactory.Create<DriveRepository>()),
                 new UserDriveUnshareAction(RepositoryFactory.Create<DriveRepository>()),
+                new CommentDisplayAction(RepositoryFactory.Create<DriveRepository>(), RepositoryFactory.Create<CommentRepository>()),
+                new CommentAddAction(RepositoryFactory.Create<DriveRepository>(), RepositoryFactory.Create<CommentRepository>()),
+                new CommentDeleteAction(RepositoryFactory.Create<DriveRepository>(), RepositoryFactory.Create<CommentRepository>()),
+                new CommentUpdateAction(RepositoryFactory.Create<DriveRepository>(), RepositoryFactory.Create<CommentRepository>()),
                 new UserDriveExitAction()
             };
 
