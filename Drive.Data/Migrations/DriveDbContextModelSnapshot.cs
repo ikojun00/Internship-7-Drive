@@ -59,7 +59,7 @@ namespace Drive.Data.Migrations
                         {
                             Id = 1,
                             Content = "Great report, but needs more details in section 3",
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(9159),
+                            CreatedAt = new DateTime(2024, 12, 31, 14, 46, 35, 900, DateTimeKind.Utc).AddTicks(6480),
                             FileId = 1,
                             UserId = 2
                         },
@@ -67,7 +67,7 @@ namespace Drive.Data.Migrations
                         {
                             Id = 2,
                             Content = "Updated the timeline section",
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(9173),
+                            CreatedAt = new DateTime(2024, 12, 31, 14, 46, 35, 900, DateTimeKind.Utc).AddTicks(6540),
                             FileId = 3,
                             UserId = 1
                         },
@@ -75,7 +75,7 @@ namespace Drive.Data.Migrations
                         {
                             Id = 3,
                             Content = "Please review the changes",
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(9174),
+                            CreatedAt = new DateTime(2024, 12, 31, 14, 46, 35, 900, DateTimeKind.Utc).AddTicks(6544),
                             FileId = 1,
                             UserId = 1
                         });
@@ -122,7 +122,7 @@ namespace Drive.Data.Migrations
                         {
                             Id = 1,
                             Content = "This is a report content",
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(8161),
+                            CreatedAt = new DateTime(2024, 12, 31, 14, 46, 35, 900, DateTimeKind.Utc).AddTicks(3060),
                             FolderId = 1,
                             Name = "report.txt",
                             OwnerId = 1
@@ -131,7 +131,7 @@ namespace Drive.Data.Migrations
                         {
                             Id = 2,
                             Content = "base64_encoded_image_content",
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(8174),
+                            CreatedAt = new DateTime(2024, 12, 31, 14, 46, 35, 900, DateTimeKind.Utc).AddTicks(3097),
                             FolderId = 2,
                             Name = "profile.jpg",
                             OwnerId = 1
@@ -140,7 +140,7 @@ namespace Drive.Data.Migrations
                         {
                             Id = 3,
                             Content = "Project timeline and milestones",
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(8175),
+                            CreatedAt = new DateTime(2024, 12, 31, 14, 46, 35, 900, DateTimeKind.Utc).AddTicks(3101),
                             FolderId = 3,
                             Name = "project_plan.txt",
                             OwnerId = 2
@@ -149,7 +149,7 @@ namespace Drive.Data.Migrations
                         {
                             Id = 4,
                             Content = "Notes from team meeting",
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(8177),
+                            CreatedAt = new DateTime(2024, 12, 31, 14, 46, 35, 900, DateTimeKind.Utc).AddTicks(3104),
                             FolderId = 4,
                             Name = "meeting_notes.txt",
                             OwnerId = 2
@@ -192,28 +192,28 @@ namespace Drive.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(6779),
+                            CreatedAt = new DateTime(2024, 12, 31, 14, 46, 35, 899, DateTimeKind.Utc).AddTicks(9060),
                             Name = "Documents",
                             OwnerId = 1
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(7018),
+                            CreatedAt = new DateTime(2024, 12, 31, 14, 46, 35, 899, DateTimeKind.Utc).AddTicks(9710),
                             Name = "Images",
                             OwnerId = 1
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(7019),
+                            CreatedAt = new DateTime(2024, 12, 31, 14, 46, 35, 899, DateTimeKind.Utc).AddTicks(9714),
                             Name = "Projects",
                             OwnerId = 2
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(7021),
+                            CreatedAt = new DateTime(2024, 12, 31, 14, 46, 35, 899, DateTimeKind.Utc).AddTicks(9717),
                             Name = "Work Documents",
                             OwnerId = 2,
                             ParentFolderId = 3
@@ -253,23 +253,23 @@ namespace Drive.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(5734),
-                            Email = "john.doe@dump.hr",
-                            PasswordHash = "hashed_password_1"
+                            CreatedAt = new DateTime(2024, 12, 31, 14, 46, 35, 899, DateTimeKind.Utc).AddTicks(6244),
+                            Email = "john.doe@gmail.com",
+                            PasswordHash = "oQnjaUetVt4dyhzEnw74rJrZp7GqDfQfs8TLc8H/Aeo="
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(5998),
-                            Email = "jane.smith@dump.hr",
-                            PasswordHash = "hashed_password_2"
+                            CreatedAt = new DateTime(2024, 12, 31, 14, 46, 35, 899, DateTimeKind.Utc).AddTicks(6950),
+                            Email = "jane.smith@gmail.com",
+                            PasswordHash = "qErJCXpDKt4m+zyvP95FuukV3gEGrD1so8mCtoZtMcE="
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(6000),
-                            Email = "bob.wilson@dump.hr",
-                            PasswordHash = "hashed_password_3"
+                            CreatedAt = new DateTime(2024, 12, 31, 14, 46, 35, 899, DateTimeKind.Utc).AddTicks(6956),
+                            Email = "bob.wilson@gmail.com",
+                            PasswordHash = "qFYB54kbXvV24+kUz/cJy2WVfl9ifGPtY5t3plLC1YY="
                         });
                 });
 

@@ -13,21 +13,21 @@ namespace Drive.Data.Seeds
             new User
             {
                 Id = 1,
-                Email = "john.doe@dump.hr",
+                Email = "john.doe@gmail.com",
                 PasswordHash = "oQnjaUetVt4dyhzEnw74rJrZp7GqDfQfs8TLc8H/Aeo=", // Password123!
                 CreatedAt = DateTime.UtcNow
             },
             new User
             {
                 Id = 2,
-                Email = "jane.smith@dump.hr",
+                Email = "jane.smith@gmail.com",
                 PasswordHash = "qErJCXpDKt4m+zyvP95FuukV3gEGrD1so8mCtoZtMcE=", //MyPassw0rd!
                 CreatedAt = DateTime.UtcNow
             },
             new User
             {
                 Id = 3,
-                Email = "bob.wilson@dump.hr",
+                Email = "bob.wilson@gmail.com",
                 PasswordHash = "qFYB54kbXvV24+kUz/cJy2WVfl9ifGPtY5t3plLC1YY=", //SecureP@ssw0rd
                 CreatedAt = DateTime.UtcNow
             }

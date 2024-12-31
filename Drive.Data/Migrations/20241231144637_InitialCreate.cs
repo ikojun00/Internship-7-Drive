@@ -171,9 +171,9 @@ namespace Drive.Data.Migrations
                 columns: new[] { "Id", "CreatedAt", "Email", "PasswordHash", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(5734), "john.doe@dump.hr", "hashed_password_1", null },
-                    { 2, new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(5998), "jane.smith@dump.hr", "hashed_password_2", null },
-                    { 3, new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(6000), "bob.wilson@dump.hr", "hashed_password_3", null }
+                    { 1, new DateTime(2024, 12, 31, 14, 46, 35, 899, DateTimeKind.Utc).AddTicks(6244), "john.doe@gmail.com", "oQnjaUetVt4dyhzEnw74rJrZp7GqDfQfs8TLc8H/Aeo=", null },
+                    { 2, new DateTime(2024, 12, 31, 14, 46, 35, 899, DateTimeKind.Utc).AddTicks(6950), "jane.smith@gmail.com", "qErJCXpDKt4m+zyvP95FuukV3gEGrD1so8mCtoZtMcE=", null },
+                    { 3, new DateTime(2024, 12, 31, 14, 46, 35, 899, DateTimeKind.Utc).AddTicks(6956), "bob.wilson@gmail.com", "qFYB54kbXvV24+kUz/cJy2WVfl9ifGPtY5t3plLC1YY=", null }
                 });
 
             migrationBuilder.InsertData(
@@ -181,9 +181,9 @@ namespace Drive.Data.Migrations
                 columns: new[] { "Id", "CreatedAt", "Name", "OwnerId", "ParentFolderId", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(6779), "Documents", 1, null, null },
-                    { 2, new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(7018), "Images", 1, null, null },
-                    { 3, new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(7019), "Projects", 2, null, null }
+                    { 1, new DateTime(2024, 12, 31, 14, 46, 35, 899, DateTimeKind.Utc).AddTicks(9060), "Documents", 1, null, null },
+                    { 2, new DateTime(2024, 12, 31, 14, 46, 35, 899, DateTimeKind.Utc).AddTicks(9710), "Images", 1, null, null },
+                    { 3, new DateTime(2024, 12, 31, 14, 46, 35, 899, DateTimeKind.Utc).AddTicks(9714), "Projects", 2, null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -191,9 +191,9 @@ namespace Drive.Data.Migrations
                 columns: new[] { "Id", "Content", "CreatedAt", "FolderId", "Name", "OwnerId", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, "This is a report content", new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(8161), 1, "report.txt", 1, null },
-                    { 2, "base64_encoded_image_content", new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(8174), 2, "profile.jpg", 1, null },
-                    { 3, "Project timeline and milestones", new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(8175), 3, "project_plan.txt", 2, null }
+                    { 1, "This is a report content", new DateTime(2024, 12, 31, 14, 46, 35, 900, DateTimeKind.Utc).AddTicks(3060), 1, "report.txt", 1, null },
+                    { 2, "base64_encoded_image_content", new DateTime(2024, 12, 31, 14, 46, 35, 900, DateTimeKind.Utc).AddTicks(3097), 2, "profile.jpg", 1, null },
+                    { 3, "Project timeline and milestones", new DateTime(2024, 12, 31, 14, 46, 35, 900, DateTimeKind.Utc).AddTicks(3101), 3, "project_plan.txt", 2, null }
                 });
 
             migrationBuilder.InsertData(
@@ -208,16 +208,16 @@ namespace Drive.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Folders",
                 columns: new[] { "Id", "CreatedAt", "Name", "OwnerId", "ParentFolderId", "UpdatedAt" },
-                values: new object[] { 4, new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(7021), "Work Documents", 2, 3, null });
+                values: new object[] { 4, new DateTime(2024, 12, 31, 14, 46, 35, 899, DateTimeKind.Utc).AddTicks(9717), "Work Documents", 2, 3, null });
 
             migrationBuilder.InsertData(
                 table: "Comments",
                 columns: new[] { "Id", "Content", "CreatedAt", "FileId", "UpdatedAt", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "Great report, but needs more details in section 3", new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(9159), 1, null, 2 },
-                    { 2, "Updated the timeline section", new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(9173), 3, null, 1 },
-                    { 3, "Please review the changes", new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(9174), 1, null, 1 }
+                    { 1, "Great report, but needs more details in section 3", new DateTime(2024, 12, 31, 14, 46, 35, 900, DateTimeKind.Utc).AddTicks(6480), 1, null, 2 },
+                    { 2, "Updated the timeline section", new DateTime(2024, 12, 31, 14, 46, 35, 900, DateTimeKind.Utc).AddTicks(6540), 3, null, 1 },
+                    { 3, "Please review the changes", new DateTime(2024, 12, 31, 14, 46, 35, 900, DateTimeKind.Utc).AddTicks(6544), 1, null, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -232,7 +232,7 @@ namespace Drive.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Files",
                 columns: new[] { "Id", "Content", "CreatedAt", "FolderId", "Name", "OwnerId", "UpdatedAt" },
-                values: new object[] { 4, "Notes from team meeting", new DateTime(2024, 12, 19, 17, 16, 22, 778, DateTimeKind.Utc).AddTicks(8177), 4, "meeting_notes.txt", 2, null });
+                values: new object[] { 4, "Notes from team meeting", new DateTime(2024, 12, 31, 14, 46, 35, 900, DateTimeKind.Utc).AddTicks(3104), 4, "meeting_notes.txt", 2, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_FileId",
