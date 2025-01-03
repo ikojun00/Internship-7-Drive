@@ -429,6 +429,54 @@ namespace Drive.Domain.Repositories
             return (ResponseResultType.Success, "Shared files retrieved successfully", files);
         }
 
+        public (ResponseResultType Result, string Message) RemoveFromShared(string itemName, bool isFolder, int? userId)
+        {
+            if (!ValidateString(itemName))
+                return (ResponseResultType.ValidationError, "Item name cannot be empty");
+
+            if (userId == null)
+                return (ResponseResultType.ValidationError, "User ID cannot be null");
+
+            if (isFolder)
+            {
+                var folder = DbContext.Folders
+                    .Include(f => f.SharedWith)
+                    .FirstOrDefault(f => f.Name == itemName &&
+                                       f.SharedWith.Any(u => u.Id == userId));
+
+                if (folder == null)
+                    return (ResponseResultType.NotFound, $"Shared folder '{itemName}' not found");
+
+                var user = folder.SharedWith.FirstOrDefault(u => u.Id == userId);
+                if (user == null)
+                    return (ResponseResultType.NotFound, $"Folder '{itemName}' is not shared with you");
+
+                folder.SharedWith.Remove(user);
+            }
+            else
+            {
+                var file = DbContext.Files
+                    .Include(f => f.SharedWith)
+                    .FirstOrDefault(f => f.Name == itemName &&
+                                       f.SharedWith.Any(u => u.Id == userId));
+
+                if (file == null)
+                    return (ResponseResultType.NotFound, $"Shared file '{itemName}' not found");
+
+                var user = file.SharedWith.FirstOrDefault(u => u.Id == userId);
+                if (user == null)
+                    return (ResponseResultType.NotFound, $"File '{itemName}' is not shared with you");
+
+                file.SharedWith.Remove(user);
+            }
+
+            var result = SaveChanges();
+
+            return result == ResponseResultType.Success
+                ? (ResponseResultType.Success, $"Removed {(isFolder ? "folder" : "file")} from your shared items")
+                : (ResponseResultType.NoChanges, $"Failed to remove {(isFolder ? "folder" : "file")} from shared items");
+        }
+
         private bool ValidateString(string? input)
         {
             return !string.IsNullOrWhiteSpace(input);
