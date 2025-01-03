@@ -1,6 +1,7 @@
 ﻿using Drive.Domain.Enums;
 using Drive.Domain.Repositories;
 using Internship_7_Drive.Abstractions;
+using Internship_7_Drive.Helpers;
 
 namespace Internship_7_Drive.Actions.UserDrive
 {
@@ -18,6 +19,12 @@ namespace Internship_7_Drive.Actions.UserDrive
 
         public void Open()
         {
+            if (string.IsNullOrWhiteSpace(UserContext.CurrentName))
+            {
+                Writer.WriteInvalidCommand("change folder [folderName]");
+                return;
+            }
+
             var (folderIdResult, _, currentFolderId) = _driveRepository.GetFolderId(
                 UserContext.CurrentPath?.Split('\\', StringSplitOptions.RemoveEmptyEntries).LastOrDefault()
             );

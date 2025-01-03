@@ -1,5 +1,6 @@
 ﻿using Drive.Domain.Repositories;
 using Internship_7_Drive.Abstractions;
+using Internship_7_Drive.Helpers;
 
 namespace Internship_7_Drive.Actions.UserDrive
 {
@@ -20,19 +21,18 @@ namespace Internship_7_Drive.Actions.UserDrive
             var input = UserContext.CurrentName?.Split(" ", StringSplitOptions.RemoveEmptyEntries);
             if (input?.Length != 2 || input[0] != "folder" && input[0] != "file")
             {
-                Console.WriteLine("Invalid command format. Use: add [folder/file] [name]");
+                Writer.WriteInvalidCommand("add [folder/file] [name]");
                 return;
             }
 
             var itemType = input[0];
             var name = input[1];
 
-            Console.Write($"Adding {itemType} '{name}'? (yes/no): ");
-            var confirmation = Console.ReadLine()?.ToLower();
+            Writer.WriteConfirmation(itemType, name, "Adding");
 
-            if (confirmation != "yes")
+            if (!Reader.TryReadConfirmation(out var confirmed) || !confirmed)
             {
-                Console.WriteLine($"Adding {itemType} '{name}' cancelled.");
+                Writer.WriteCancellation(itemType, name, "Adding");
                 return;
             }
 

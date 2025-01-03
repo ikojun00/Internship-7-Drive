@@ -45,7 +45,7 @@ namespace Internship_7_Drive.Actions.SharedDrive
 
             if (!folders.Any() && !files.Any())
             {
-                Console.WriteLine("Folder is empty.");
+                Console.WriteLine("Empty.");
             }
         }
     }

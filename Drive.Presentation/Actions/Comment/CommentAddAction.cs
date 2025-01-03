@@ -37,7 +37,7 @@ namespace Internship_7_Drive.Actions.Comment
                 return;
             }
 
-            Console.WriteLine("Enter your comment (press Enter on an empty line to finish):");
+            Console.WriteLine("Enter your comment (press Enter to finish):");
             var content = Console.ReadLine();
 
             var (result, message) = _commentRepository.AddComment(

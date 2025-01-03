@@ -1,6 +1,7 @@
 ﻿using Drive.Domain.Enums;
 using Drive.Domain.Repositories;
 using Internship_7_Drive.Abstractions;
+using Internship_7_Drive.Helpers;
 using File = Drive.Data.Entities.Models.File;
 
 namespace Internship_7_Drive.Actions.UserDrive
@@ -26,6 +27,12 @@ namespace Internship_7_Drive.Actions.UserDrive
 
         public void Open()
         {
+            if (string.IsNullOrWhiteSpace(UserContext.CurrentName))
+            {
+                Writer.WriteInvalidCommand("update file [fileName]");
+                return;
+            }
+
             var (folderIdResult, _, currentFolderId) = _driveRepository.GetFolderId(
                 UserContext.CurrentPath?.Split('\\', StringSplitOptions.RemoveEmptyEntries).LastOrDefault()
             );
@@ -44,7 +51,6 @@ namespace Internship_7_Drive.Actions.UserDrive
 
             _lines.Clear();
             _lines.AddRange(file.Content.Split('\n'));
-            _currentLine = _lines.Count;
 
             Console.WriteLine($"\nEditing file: {file.Name}");
             Console.WriteLine("Commands available:");
@@ -104,8 +110,8 @@ namespace Internship_7_Drive.Actions.UserDrive
                     Console.WriteLine(":help - Show this help message");
                     Console.WriteLine(":save - Save changes and exit");
                     Console.WriteLine(":quit - Exit without saving");
-                    Console.WriteLine("Press Enter on empty line to start new line");
-                    Console.WriteLine("Press Backspace on empty line to go to previous line\n");
+                    Console.WriteLine("Press Enter to start new line");
+                    Console.WriteLine("Press Enter on empty line to go to previous line\n");
                     break;
 
                 case ":save":

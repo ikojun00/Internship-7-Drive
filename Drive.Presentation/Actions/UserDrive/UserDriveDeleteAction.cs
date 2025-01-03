@@ -1,5 +1,6 @@
 ﻿using Drive.Domain.Repositories;
 using Internship_7_Drive.Abstractions;
+using Internship_7_Drive.Helpers;
 
 namespace Internship_7_Drive.Actions.UserDrive
 {
@@ -20,19 +21,17 @@ namespace Internship_7_Drive.Actions.UserDrive
             var input = UserContext.CurrentName?.Split(" ", StringSplitOptions.RemoveEmptyEntries);
             if (input?.Length != 2 || input[0] != "folder" && input[0] != "file")
             {
-                Console.WriteLine("Invalid command format. Use: delete [folder/file] [name]");
+                Writer.WriteInvalidCommand("delete [folder/file] [name]");
                 return;
             }
 
             var itemType = input[0];
             var name = input[1];
 
-            Console.Write($"Deleting {itemType} '{name}'? (yes/no): ");
-            var confirmation = Console.ReadLine()?.ToLower();
-
-            if (confirmation != "yes")
+            Writer.WriteConfirmation(itemType, name, "Deleting");
+            if (!Reader.TryReadConfirmation(out var confirmed) || !confirmed)
             {
-                Console.WriteLine($"Deleting {itemType} '{name}' cancelled.");
+                Writer.WriteCancellation(itemType, name, "Deleting");
                 return;
             }
 

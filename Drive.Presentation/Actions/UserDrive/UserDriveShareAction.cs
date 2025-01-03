@@ -1,6 +1,7 @@
 ﻿using Drive.Domain.Enums;
 using Drive.Domain.Repositories;
 using Internship_7_Drive.Abstractions;
+using Internship_7_Drive.Helpers;
 
 namespace Internship_7_Drive.Actions.UserDrive
 {
@@ -22,7 +23,7 @@ namespace Internship_7_Drive.Actions.UserDrive
 
             if (input?.Length != 2)
             {
-                Console.WriteLine("Invalid command format. Use: share [folder/file] [name] with [email]");
+                Writer.WriteInvalidCommand("share [folder/file] [name] with [email]");
                 return;
             }
 
@@ -30,7 +31,7 @@ namespace Internship_7_Drive.Actions.UserDrive
 
             if (inp?.Length != 2 || (inp[0] != "folder" && inp[0] != "file"))
             {
-                Console.WriteLine("Invalid command format. Use: share [folder/file] [name] with [email]");
+                Writer.WriteInvalidCommand("share [folder/file] [name] with [email]");
                 return;
             }
 
@@ -39,9 +40,7 @@ namespace Internship_7_Drive.Actions.UserDrive
             var email = input[1];
 
             Console.Write($"Sharing '{name}' with '{email}'? (yes/no): ");
-            var confirmation = Console.ReadLine()?.ToLower();
-
-            if (confirmation != "yes")
+            if (!Reader.TryReadConfirmation(out var confirmed) || !confirmed)
             {
                 Console.WriteLine("Sharing cancelled.");
                 return;

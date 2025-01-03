@@ -60,7 +60,8 @@ namespace Drive.Domain.Repositories
                 return (ResponseResultType.ValidationError, "Email or password is empty");
 
             if (!ValidateEmail(newEmail))
-                return (ResponseResultType.ValidationError, "Invalid email format");
+                return (ResponseResultType.ValidationError, "Invalid email format. " +
+                    "Emails needs to have [string min 1 char]@[string min 2 char].[string min 3 char].");
 
             if (DbContext.Users.Any(u => u.Email == newEmail && u.Id != userId))
                 return (ResponseResultType.AlreadyExists, "Email already in use");
@@ -82,6 +83,9 @@ namespace Drive.Domain.Repositories
         {
             if (!ValidateString(newPassword))
                 return (ResponseResultType.ValidationError, "New password is empty");
+
+            if (currentPassword == newPassword)
+                return (ResponseResultType.ValidationError, "New password cannot be same as your current password");
 
             var user = DbContext.Users.Find(userId);
             if (user == null)

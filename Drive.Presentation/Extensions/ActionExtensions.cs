@@ -25,6 +25,7 @@ namespace Internship_7_Drive.Extensions
             var isExitSelected = false;
             do
             {
+                Console.Clear();
                 PrintNumberedActions(actions);
                 Console.Write("\nYour choice: ");
 

@@ -16,6 +16,7 @@ namespace Internship_7_Drive.Factories
                 new SharedDriveDisplayAction(RepositoryFactory.Create<DriveRepository>()),
                 new UserDriveChangeFolderAction(RepositoryFactory.Create<DriveRepository>()),
                 new UserDriveUpdateFileAction(RepositoryFactory.Create<DriveRepository>()),
+                new SharedDriveDeleteAction(RepositoryFactory.Create<DriveRepository>()),
                 new UserDriveBackAction(),
                 new CommentDisplayAction(RepositoryFactory.Create<DriveRepository>(), RepositoryFactory.Create<CommentRepository>()),
                 new CommentAddAction(RepositoryFactory.Create<DriveRepository>(), RepositoryFactory.Create<CommentRepository>()),

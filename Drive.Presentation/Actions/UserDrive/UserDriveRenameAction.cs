@@ -1,6 +1,7 @@
 ﻿using Drive.Domain.Enums;
 using Drive.Domain.Repositories;
 using Internship_7_Drive.Abstractions;
+using Internship_7_Drive.Helpers;
 
 namespace Internship_7_Drive.Actions.UserDrive
 {
@@ -21,17 +22,16 @@ namespace Internship_7_Drive.Actions.UserDrive
             var input = UserContext.CurrentName?.Split(" to ", StringSplitOptions.RemoveEmptyEntries);
             if (input?.Length != 2)
             {
-                Console.WriteLine("Invalid command format. Use: rename [old name] to [new name]");
+                Writer.WriteInvalidCommand("rename [old name] to [new name]");
                 return;
             }
 
             var currentName = input[0];
             var newName = input[1];
 
+            // needs refactoring
             Console.Write($"Renaming '{currentName}' into '{newName}'? (yes/no): ");
-            var confirmation = Console.ReadLine()?.ToLower();
-
-            if (confirmation != "yes")
+            if (!Reader.TryReadConfirmation(out var confirmed) || !confirmed)
             {
                 Console.WriteLine("Renaming cancelled.");
                 return;

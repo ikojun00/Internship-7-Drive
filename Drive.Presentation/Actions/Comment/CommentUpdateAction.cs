@@ -1,5 +1,6 @@
 ﻿using Drive.Domain.Repositories;
 using Internship_7_Drive.Abstractions;
+using Internship_7_Drive.Helpers;
 
 namespace Internship_7_Drive.Actions.Comment
 {
@@ -21,7 +22,7 @@ namespace Internship_7_Drive.Actions.Comment
         {
             if (string.IsNullOrWhiteSpace(UserContext.CurrentName) || !int.TryParse(UserContext.CurrentName, out int commentId))
             {
-                Console.WriteLine("Invalid command format. Use: edit comment [commentId]");
+                Writer.WriteInvalidCommand("edit comment [commentId]");
                 return;
             }
 
@@ -36,9 +37,8 @@ namespace Internship_7_Drive.Actions.Comment
             }
 
             Console.Write($"Are you sure you want to edit comment {commentId}? (yes/no): ");
-            var confirmation = Console.ReadLine()?.ToLower();
 
-            if (confirmation != "yes")
+            if (!Reader.TryReadConfirmation(out var confirmed) || !confirmed)
             {
                 Console.WriteLine("Comment edit cancelled.");
                 UserContext.CurrentName = null;

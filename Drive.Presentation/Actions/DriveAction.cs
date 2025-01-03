@@ -11,7 +11,6 @@ namespace Internship_7_Drive.Actions
 
         public override void Open()
         {
-            Console.WriteLine("Drive management");
             base.Open();
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Drive.Domain.Repositories;
 using Internship_7_Drive.Abstractions;
+using Internship_7_Drive.Helpers;
 
 namespace Internship_7_Drive.Actions.UserDrive
 {
@@ -38,9 +39,7 @@ namespace Internship_7_Drive.Actions.UserDrive
             var email = input[1];
 
             Console.Write($"Stop sharing '{name}' with '{email}'? (yes/no): ");
-            var confirmation = Console.ReadLine()?.ToLower();
-
-            if (confirmation != "yes")
+            if (!Reader.TryReadConfirmation(out var confirmed) || !confirmed)
             {
                 Console.WriteLine("Operation cancelled.");
                 return;

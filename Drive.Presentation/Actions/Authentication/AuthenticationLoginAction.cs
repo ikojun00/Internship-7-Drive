@@ -39,6 +39,7 @@ namespace Internship_7_Drive.Actions.Authentication
                 UserContext.LastFailedLogin = null;
                 Console.WriteLine(message);
                 var driveMenu = DriveActionsFactory.Create();
+                Thread.Sleep(2000);
                 Console.Clear();
                 driveMenu.Open();
             }
@@ -46,8 +47,8 @@ namespace Internship_7_Drive.Actions.Authentication
             {
                 Console.WriteLine(message);
                 UserContext.LastFailedLogin = DateTime.Now;
+                Thread.Sleep(2000);
             }
-            Thread.Sleep(2000);
         }
     }
 }
